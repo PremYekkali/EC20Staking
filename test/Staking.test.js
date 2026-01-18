@@ -46,7 +46,9 @@ describe("ERC20 Staking Protocol", function () {
   /* ================= Stake ================= */
 
   it("stakes tokens when no previous stake exists", async () => {
-    await staking.connect(user).stake(100);
+    await expect(staking.connect(user).stake(100))
+      .to.emit(staking, "Staked")
+      .withArgs(user.address, 100);
     const pos = await staking.positions(user.address);
     expect(pos.amount).to.equal(100);
   });
@@ -95,7 +97,8 @@ describe("ERC20 Staking Protocol", function () {
     await ethers.provider.send("evm_mine");
 
     await token.mint(staking.target, 10);
-    await staking.connect(user).claimInterest();
+    await expect(staking.connect(user).claimInterest())
+      .to.emit(staking, "InterestClaimed");
   });
 
   it("pays 10 percent interest after seven days", async () => {
@@ -147,7 +150,9 @@ describe("ERC20 Staking Protocol", function () {
     await ethers.provider.send("evm_mine");
 
     await token.mint(staking.target, 10);
-    await staking.connect(user).redeem(50);
+    await expect(staking.connect(user).redeem(50))
+      .to.emit(staking, "Redeemed")
+      .withArgs(user.address, 50);
 
     const pos = await staking.positions(user.address);
     expect(pos.amount).to.equal(50);

@@ -14,6 +14,10 @@ contract Staking is ReentrancyGuard {
 
     mapping(address => Position) public positions;
 
+    event Staked(address indexed user, uint256 amount);
+    event Redeemed(address indexed user, uint256 amount);
+    event InterestClaimed(address indexed user, uint256 amount);
+
     constructor(address tokenAddress) {
         require(tokenAddress != address(0), "Invalid token");
         token = IERC20(tokenAddress);
@@ -36,6 +40,8 @@ contract Staking is ReentrancyGuard {
             amount: amount,
             startTime: block.timestamp
         });
+
+        emit Staked(msg.sender, amount);
     }
 
     function redeem(uint256 amount) external nonReentrant {
@@ -60,6 +66,7 @@ contract Staking is ReentrancyGuard {
             // Reset staking timer for remaining balance
             p.startTime = block.timestamp;
         }
+        emit Redeemed(msg.sender, amount);
     }
 
     function claimInterest() external nonReentrant {
@@ -68,6 +75,7 @@ contract Staking is ReentrancyGuard {
 
         positions[msg.sender].startTime = block.timestamp;
         token.transfer(msg.sender, interest);
+        emit InterestClaimed(msg.sender, interest);
     }
 
     function _calculateInterest(address user) internal view returns (uint256) {
