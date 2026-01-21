@@ -1,6 +1,6 @@
 # ERC20 Staking Protocol
 
-![Solidity](https://img.shields.io/badge/solidity-^0.8.17-363636?style=flat&logo=solidity)
+![Solidity](https://img.shields.io/badge/solidity-^0.8.20-363636?style=flat&logo=solidity)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 ---
