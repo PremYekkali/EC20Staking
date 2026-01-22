@@ -15,7 +15,13 @@ describe("ERC20 Staking Protocol", function () {
     );
 
     const Staking = await ethers.getContractFactory("Staking");
-    staking = await Staking.deploy(token.target);
+    const tiers = [
+      { minDuration: 86400, rewardBps: 100 },
+      { minDuration: 86400 * 7, rewardBps: 1000 }
+    ];
+
+    staking = await Staking.deploy(token.target, tiers);
+    
 
     await token.mint(user.address, ethers.parseEther("1000"));
     await token.connect(user).approve(staking.target, ethers.MaxUint256);
@@ -39,8 +45,12 @@ describe("ERC20 Staking Protocol", function () {
     const Staking = await ethers.getContractFactory("Staking");
 
     await expect(
-      Staking.deploy(ethers.ZeroAddress)
+      Staking.deploy(ethers.ZeroAddress,[])
     ).to.be.revertedWith("Invalid token");
+  });
+
+  it("sets deployer as owner", async () => {
+    expect(await staking.owner()).to.equal(owner.address);
   });
 
   /* ================= Stake ================= */
@@ -99,7 +109,7 @@ describe("ERC20 Staking Protocol", function () {
     await token.mint(staking.target, 10);
     await expect(staking.connect(user).claimInterest())
       .to.emit(staking, "InterestClaimed");
-  });
+  }); 
 
   it("pays 10 percent interest after seven days", async () => {
     await staking.connect(user).stake(100);
@@ -175,7 +185,12 @@ describe("ERC20 Staking Protocol", function () {
     const attackerToken = await ReentrantToken.deploy();
 
     const Staking = await ethers.getContractFactory("Staking");
-    const attackStaking = await Staking.deploy(attackerToken.target);
+
+    const tiers = [
+      { minDuration: 86400, rewardBps: 100 },
+      { minDuration: 86400 * 7, rewardBps: 1000 }
+    ];
+    const attackStaking = await Staking.deploy(attackerToken.target, tiers);
 
     await attackerToken.setStaking(attackStaking.target);
     await attackerToken.setAttackType(1); // STAKE
@@ -203,7 +218,11 @@ describe("ERC20 Staking Protocol", function () {
     const attackerToken = await ReentrantToken.deploy();
 
     const Staking = await ethers.getContractFactory("Staking");
-    const attackStaking = await Staking.deploy(attackerToken.target);
+    const tiers = [
+      { minDuration: 86400, rewardBps: 100 },
+      { minDuration: 86400 * 7, rewardBps: 1000 }
+    ];
+    const attackStaking = await Staking.deploy(attackerToken.target, tiers);
 
     await attackerToken.setStaking(attackStaking.target);
     await attackerToken.setAttackType(1); // STAKE first to set up
@@ -230,7 +249,11 @@ describe("ERC20 Staking Protocol", function () {
         const attackerToken = await ReentrantToken.deploy();
 
         const Staking = await ethers.getContractFactory("Staking");
-        const attackStaking = await Staking.deploy(attackerToken.target);
+        const tiers = [
+          { minDuration: 86400, rewardBps: 100 },
+          { minDuration: 86400 * 7, rewardBps: 1000 }
+        ];
+        const attackStaking = await Staking.deploy(attackerToken.target, tiers);
 
         await attackerToken.setStaking(attackStaking.target);
 
@@ -251,6 +274,73 @@ describe("ERC20 Staking Protocol", function () {
             attackStaking.connect(user).claimInterest()
         ).to.not.be.reverted;
     });
+    /* ================== Update reward tiers =============== */
+    it("reverts when non owner updates reward tiers", async () => {
+      const tiers = [
+        { minDuration: 86400, rewardBps: 200 }
+      ];
 
+      await expect(
+        staking.connect(user).updateRewardTiers(tiers)
+      ).to.be.reverted;
+    });
+
+    it("allows owner to update reward tiers and emits event", async () => {
+      const tiers = [
+        { minDuration: 86400, rewardBps: 300 },
+        { minDuration: 86400 * 7, rewardBps: 1500 }
+      ];
+
+      await expect(
+        staking.updateRewardTiers(tiers)
+      );
+    });
+
+    it("reverts if reward does not increase with duration", async () => {
+      const badTiers = [
+        { minDuration: 86400, rewardBps: 500 },
+        { minDuration: 86400 * 7, rewardBps: 400 }
+      ];
+
+      await expect(
+        staking.updateRewardTiers(badTiers)
+      ).to.be.revertedWith("Invalid tier reward");
+    });
+
+    it("uses updated reward tiers for interest calculation", async () => {
+      const tiers = [
+        { minDuration: 86400, rewardBps: 500 } // 5%
+      ];
+
+      await staking.updateRewardTiers(tiers);
+
+      await staking.connect(user).stake(100);
+
+      await ethers.provider.send("evm_increaseTime", [86400]);
+      await ethers.provider.send("evm_mine");
+
+      await token.mint(staking.target, 100);
+
+      await expect(
+        staking.connect(user).claimInterest()
+      ).to.emit(staking, "InterestClaimed");
+    });
+
+    it("reverts when updating reward tiers with empty array", async () => {
+      await expect(
+        staking.updateRewardTiers([])
+      ).to.be.revertedWith("No reward tiers");
+    });
+
+    it("reverts when reward tier duration is not strictly increasing", async () => {
+      const badTiers = [
+        { minDuration: 86400, rewardBps: 100 },
+        { minDuration: 86400, rewardBps: 200 } // same duration → invalid
+      ];
+
+      await expect(
+        staking.updateRewardTiers(badTiers)
+      ).to.be.revertedWith("Invalid tier duration");
+    });
 
 });
