@@ -1,5 +1,10 @@
 # ERC20 Staking Protocol
 
+![Solidity](https://img.shields.io/badge/solidity-^0.8.20-363636?style=flat&logo=solidity)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+---
+
 A production ready ERC20 staking protocol that allows users to stake tokens and earn rewards based on how long their tokens remain staked. The design prioritizes correctness, gas efficiency, and user safety.
 
 ---
