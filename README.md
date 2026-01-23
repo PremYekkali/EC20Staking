@@ -11,24 +11,29 @@ A production ready ERC20 staking protocol that allows users to stake tokens and 
 
 ## Overview
 
-Users can stake ERC20 tokens and earn interest based on the duration of their stake.
+This project implements an ERC20 staking protocol where users can stake tokens and earn rewards based on how long their tokens remain staked.
 
-Reward tiers:
+Rewards are calculated using **configurable reward tiers**, where each tier defines a minimum staking duration and an associated yield rate. Reward tiers are validated to ensure increasing staking duration and yield, preventing misconfigured or unfair reward structures.
+
+The default configuration demonstrates a tiered reward model similar to:
 
 - Less than 1 day: no rewards  
-- 1 day or more: 1 percent  
-- 7 days or more: 10 percent  
+- 1 day or more: 1 percent reward
+- 7 days or more: 10 percent reward
 
-Interest is calculated on the full staked amount and is settled atomically with principal where applicable to avoid partial payouts and reduce gas usage.
+These values are provided as an example configuration and are not hard-coded into the protocol.  
+
+Interest is calculated on the full staked amount and is settled atomically with principal, where applicable, to avoid partial payouts and reduce gas usage.
 
 ---
 
 ## Features
 
 - Single active staking position per user
-- Time based reward calculation
+- Time-based reward calculation
 - Automatic interest settlement on stake and redeem
 - Explicit interest claiming
+- Configurable reward tiers with validated duration and yield progression
 - Gas optimized settlement using single ERC20 transfers
 - No privileged fund withdrawal or backdoor access
 
@@ -62,13 +67,18 @@ Includes owner controlled minting and is suitable for local testing and developm
 
 ### Staking.sol
 
-The core staking contract responsible for:
+The core staking contract responsible for managing user stakes and reward distribution.
+
+Key responsibilities include:
 
 - Accepting ERC20 token stakes
-- Tracking staking duration
-- Calculating time based rewards
-- Handling redeem and claim operations
-- Applying reentrancy protection on all external entry points
+- Tracking staking duration per user
+- Calculating rewards using configurable reward tiers
+- Enforcing strictly increasing reward tiers to prevent invalid configurations
+- Supporting reward claiming and partial or full redemption
+- Protecting all external entry points using reentrancy guards
+
+Reward tiers are configurable by the contract owner and are fully validated before being applied.
 
 ### ReentrantERC20.sol
 
@@ -137,6 +147,7 @@ The coverage suite includes:
 - Reward and principal transfers are combined where possible to reduce gas usage
 - Reentrancy protection is applied to all external state changing functions
 - The protocol is designed to work strictly with ERC20 tokens
+- Reward tiers are configurable and validated to enforce increasing duration and yield
 - Full branch and line coverage is achieved through targeted negative test cases
 - Malicious contracts are used strictly for security testing and coverage validation
 
