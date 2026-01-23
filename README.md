@@ -144,7 +144,6 @@ The coverage suite includes:
 
 ## Disclaimer
 
-This project is intended for educational and evaluation purposes only.  
 It has not been audited and should not be used in production without a thorough security review.
 
 ---
