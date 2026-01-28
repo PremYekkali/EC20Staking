@@ -5,13 +5,13 @@
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 ---
 
-A production ready ERC20 staking protocol that allows users to stake tokens and earn rewards based on how long their tokens remain staked. The design prioritizes correctness, gas efficiency, and user safety.
+A production-grade ERC20 staking protocol that enables users to stake tokens and earn rewards proportional to the duration of their stake, with a strong emphasis on correctness, gas efficiency, and user safety.
 
 ---
 
 ## Overview
 
-Users can stake ERC20 tokens and earn interest based on the duration of their stake.
+Users can stake ERC20 tokens to earn interest that accrues based on how long their tokens remain staked.
 
 Reward tiers:
 
@@ -19,7 +19,7 @@ Reward tiers:
 - 1 day or more: 1 percent  
 - 7 days or more: 10 percent  
 
-Interest is calculated on the full staked amount and is settled atomically with principal where applicable to avoid partial payouts and reduce gas usage.
+Interest is calculated on the entire staked balance and, where applicable, is settled atomically with the principal to prevent partial payouts and minimize gas costs.
 
 ---
 
