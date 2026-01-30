@@ -343,4 +343,27 @@ describe("ERC20 Staking Protocol", function () {
       ).to.be.revertedWith("Invalid tier duration");
     });
 
+    it("returns correct reward tier count", async () => {
+      const count = await staking.rewardTierCount();
+      expect(count).to.equal(2); // assuming default tiers length is 2
+    });
+    it("returns correct reward tier data by index", async () => {
+      const tier0 = await staking.getRewardTier(0);
+      const tier1 = await staking.getRewardTier(1);
+
+      expect(tier0.minDuration).to.equal(86400);
+      expect(tier0.rewardBps).to.equal(100);
+
+      expect(tier1.minDuration).to.equal(86400 * 7);
+      expect(tier1.rewardBps).to.equal(1000);
+    });
+    it("reverts when accessing reward tier with invalid index", async () => {
+      const count = await staking.rewardTierCount();
+
+      await expect(
+        staking.getRewardTier(count)
+      ).to.be.reverted;
+    });
+
+
 });
