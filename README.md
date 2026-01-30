@@ -63,11 +63,11 @@ staking-protocol/
 ### ERC20Token.sol
 
 A standard ERC20 token implementation used for staking.  
-Includes owner controlled minting and is suitable for local testing and development.
+Includes owner-controlled minting and is suitable for local testing and development.
 
 ### Staking.sol
 
-The core staking contract responsible for managing user stakes and reward distribution.
+The core staking contract is responsible for managing user stakes and reward distribution.
 
 Key responsibilities include:
 
@@ -145,7 +145,7 @@ The coverage suite includes:
 ## Design Notes
 
 - Reward and principal transfers are combined where possible to reduce gas usage
-- Reentrancy protection is applied to all external state changing functions
+- Reentrancy protection is applied to all external state-changing functions
 - The protocol is designed to work strictly with ERC20 tokens
 - Reward tiers are configurable and validated to enforce increasing duration and yield
 - Full branch and line coverage is achieved through targeted negative test cases
