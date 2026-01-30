@@ -177,4 +177,25 @@ contract Staking is ReentrancyGuard, Ownable {
             lastReward = _tiers[i].rewardBps;
         }
     }
+
+    /// @notice Returns the total number of configured reward tiers
+    /// @return count Number of reward tiers
+    function rewardTierCount() external view returns (uint256 count) {
+        return rewardTiers.length;
+    }
+
+    /// @notice Returns the reward tier at a given index
+    /// @param index Index of the reward tier
+    /// @return minDuration Minimum staking duration required for the tier
+    /// @return rewardBps Reward rate for the tier expressed in basis points
+    /// @dev Reverts if index is out of bounds
+    function getRewardTier(uint256 index)
+        external
+        view
+        returns (uint256 minDuration, uint256 rewardBps)
+    {
+        RewardTier memory tier = rewardTiers[index];
+        return (tier.minDuration, tier.rewardBps);
+    }
+
 }
