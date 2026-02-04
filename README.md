@@ -144,11 +144,11 @@ The coverage suite includes:
 
 ## Design Notes
 
-- Reward and principal transfers are combined where possible to reduce gas usage
+- Reward and principal transfers are combined where possible for better gas usage
 - Reentrancy protection is applied to all external state-changing functions
 - The protocol is designed to work strictly with ERC20 tokens
 - Reward tiers are configurable and validated to enforce increasing duration and yield
-- Full branch and line coverage is achieved through targeted negative test cases
+- Full branch and line coverage is achieved through targeted test cases
 - Malicious contracts are used strictly for security testing and coverage validation
 
 ---
