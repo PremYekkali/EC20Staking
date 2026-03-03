@@ -29,7 +29,7 @@ contract Staking is ReentrancyGuard, Ownable {
     /// @notice Array of reward tiers sorted by increasing duration
     RewardTier[] public rewardTiers;
 
-    /// @notice Emitted when corresponding action is triggered
+    /// @notice Emitted when the corresponding action is triggered
     event Staked(address indexed user, uint256 amount);
     event Redeemed(address indexed user, uint256 amount);
     event InterestClaimed(address indexed user, uint256 amount);
@@ -47,7 +47,7 @@ contract Staking is ReentrancyGuard, Ownable {
     /// @notice Stake ERC20 tokens to earn rewards
     /// @param amount Amount of tokens to stake
     /// @dev If the user already has an active stake, the existing stake and any
-    /// accrued rewards are fully settled and a new staking position is created
+    /// accrued rewards are fully settled, and a new staking position is created
     function stake(uint256 amount) external nonReentrant {
         require(amount > 0, "Invalid amount");
 
