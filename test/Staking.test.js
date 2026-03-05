@@ -53,7 +53,7 @@ describe("ERC20 Staking Protocol", function () {
     expect(await staking.owner()).to.equal(owner.address);
   });
 
-  /* ================= Stake ================= */
+  /* ================= Stake related tests ================= */
 
   it("stakes tokens when no previous stake exists", async () => {
     await expect(staking.connect(user).stake(100))
@@ -84,7 +84,7 @@ describe("ERC20 Staking Protocol", function () {
     expect(pos.amount).to.equal(200);
   });
 
-  /* ================= Claim Interest ================= */
+  /* ================= Claim Interest related tests ================= */
 
   it("reverts claimInterest when no stake exists", async () => {
     await expect(
@@ -135,7 +135,7 @@ describe("ERC20 Staking Protocol", function () {
     ).to.be.revertedWith("No interest");
   });
 
-  /* ================= Redeem ================= */
+  /* ================= Redeem related tests ================= */
 
   it("reverts redeem with zero amount", async () => {
     await staking.connect(user).stake(100);
@@ -178,7 +178,7 @@ describe("ERC20 Staking Protocol", function () {
     expect(pos.amount).to.equal(0);
   });
 
-  /* ================= Reentrancy ================= */
+  /* ================= Reentrancy tests ================= */
 
   it("covers nonReentrant else branch in stake via malicious ERC20", async () => {
     const ReentrantToken = await ethers.getContractFactory("ReentrantERC20");
