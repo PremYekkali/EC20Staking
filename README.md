@@ -155,7 +155,7 @@ The coverage suite includes:
 
 ## Disclaimer
 
-It has not been audited and should not be used in production without a thorough security review.
+The Smart Contracts have not been audited and should not be used in production without a thorough security review.
 
 ---
 
