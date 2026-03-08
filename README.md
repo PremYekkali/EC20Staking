@@ -149,7 +149,7 @@ The coverage suite includes:
 - The protocol is designed to work strictly with ERC20 tokens
 - Reward tiers are configurable and validated to enforce increasing duration and yield
 - Full branch, function, and line coverage is achieved through targeted test cases
-- Malicious contracts are used strictly for security testing and coverage validation
+- Malicious contracts are used strictly for security testing and coverage validation and should not be deployed in production
 
 ---
 
