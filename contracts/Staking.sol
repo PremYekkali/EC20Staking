@@ -112,7 +112,7 @@ contract Staking is ReentrancyGuard, Ownable {
     /// @param user Address of the staker
     /// @return interest Amount of reward tokens earned
     /// @dev Iterates reward tiers in reverse order to find the highest
-    /// applicable tier and short circuit early for gas efficiency
+    /// applicable tier and short-circuit early for gas efficiency
     function _calculateInterest(address user)
         internal
         view
@@ -178,7 +178,7 @@ contract Staking is ReentrancyGuard, Ownable {
         }
     }
 
-    /// @notice Returns the total number of configured reward tiers
+    /// @notice Returns the total number of configured reward tiers that exist
     /// @return count Number of reward tiers
     function rewardTierCount() external view returns (uint256 count) {
         return rewardTiers.length;
