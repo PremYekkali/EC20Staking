@@ -39,7 +39,7 @@ describe("ERC20 Staking Protocol", function () {
     ).to.be.reverted;
   });
 
-  /* ================= Constructor ================= */
+  /* ================= Constructor test cases ================= */
 
   it("reverts staking deployment with zero token address", async () => {
     const Staking = await ethers.getContractFactory("Staking");
