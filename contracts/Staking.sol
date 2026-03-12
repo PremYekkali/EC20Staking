@@ -108,7 +108,7 @@ contract Staking is ReentrancyGuard, Ownable {
         emit InterestClaimed(msg.sender, interest);
     }
 
-    /// @notice Calculates accrued interest for a staker
+    /// @notice Calculates accrued interest for a given address
     /// @param user Address of the staker
     /// @return interest Amount of reward tokens earned
     /// @dev Iterates reward tiers in reverse order to find the highest
@@ -179,7 +179,7 @@ contract Staking is ReentrancyGuard, Ownable {
     }
 
     /// @notice Returns the total number of configured reward tiers that exist
-    /// @return count Number of reward tiers
+    /// @return count Number of reward tiers exist
     function rewardTierCount() external view returns (uint256 count) {
         return rewardTiers.length;
     }
