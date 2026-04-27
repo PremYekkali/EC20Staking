@@ -31,7 +31,7 @@ Interest is calculated on the full staked amount and is settled atomically with 
 
 - Single active staking position per user
 - Time-based reward calculation
-- Automatic interest settlement on stake and redeem
+- Automatic interest settlement on stake and redeem actions
 - Explicit interest claiming
 - Configurable reward tiers with validated duration and yield progression
 - Gas optimized settlement using single ERC20 transfers
