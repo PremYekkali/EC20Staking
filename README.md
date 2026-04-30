@@ -21,7 +21,7 @@ The default configuration demonstrates a tiered reward model similar to:
 - 1 day or more: 1 percent reward
 - 7 days or more: 10 percent reward
 
-These values are provided as an example configuration and are not hard-coded into the protocol.  
+These values are provided as an example configuration and are not hard-coded into the system.  
 
 Interest is calculated on the full staked amount and is settled atomically with principal, where applicable, to avoid partial payouts and reduce gas usage.
 
