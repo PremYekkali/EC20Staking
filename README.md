@@ -5,7 +5,7 @@
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 ---
 
-A production-grade ERC20 staking protocol that enables users to stake tokens and earn rewards proportional to the duration of their stake, with a strong emphasis on correctness, gas efficiency, and user safety.
+A production-grade ERC20 compatible staking protocol that enables users to stake tokens and earn rewards proportional to the duration of their stake, with a strong emphasis on correctness, gas efficiency, and user safety.
 
 ---
 
