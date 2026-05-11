@@ -137,7 +137,7 @@ npm run coverage
 The coverage suite includes:
 
 - Positive execution paths
-- Revert and failure scenarios
+- Revert and failure scenarios cases
 - Reentrancy attack simulations using a malicious ERC20 token
 
 ---
